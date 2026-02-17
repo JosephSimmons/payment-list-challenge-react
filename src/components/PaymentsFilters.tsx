@@ -1,7 +1,7 @@
 import { Form, Formik } from 'formik';
 import { TableState } from '../types/payment';
 import { I18N } from '../constants/i18n';
-import { FilterRow, SearchButton } from './components';
+import { ClearButton, FilterRow, SearchButton } from './components';
 import SearchInputField from './SearchInputField';
 
 type PaymentsFiltersInitialValues = Pick<TableState, 'search' | 'currency'>;
@@ -19,8 +19,13 @@ const PaymentsFilters = ({ tableState, setTableState }: Props) => {
         currency: tableState.currency,
       }}
       onSubmit={(values) =>
-        setTableState((prevTableState) => ({ ...prevTableState, ...values }))
+        setTableState((prev) => ({
+          ...prev,
+          ...values,
+          pageIndex: 0, // reset to first page on new search or filter change
+        }))
       }
+      enableReinitialize // this allows the form to update when tableState changes, which is important for the Clear button to work correctly
     >
       {({ isSubmitting }) => (
         <Form>
@@ -30,9 +35,25 @@ const PaymentsFilters = ({ tableState, setTableState }: Props) => {
               placeholder={I18N.SEARCH_PLACEHOLDER}
               ariaLabel={I18N.SEARCH_LABEL}
             />
+
             <SearchButton type="submit" disabled={isSubmitting}>
               {I18N.SEARCH_BUTTON}
             </SearchButton>
+
+            {tableState.search !== '' || tableState.currency !== '' ? (
+              <ClearButton
+                onClick={() =>
+                  setTableState((prev) => ({
+                    ...prev,
+                    search: '',
+                    currency: '',
+                    pageIndex: 0, // reset to first page when clearing filters
+                  }))
+                }
+              >
+                {I18N.CLEAR_FILTERS}
+              </ClearButton>
+            ) : null}
           </FilterRow>
         </Form>
       )}
