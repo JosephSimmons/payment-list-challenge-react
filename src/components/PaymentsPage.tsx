@@ -23,18 +23,13 @@ export const PaymentsPage = () => {
   return (
     <Container>
       <Title>{I18N.PAGE_TITLE}</Title>
+      <PaymentsFilters tableState={tableState} setTableState={setTableState} />
       {isPending ? (
         <Spinner />
       ) : error ? (
         <ErrorBox>{I18N.SOMETHING_WENT_WRONG}</ErrorBox>
       ) : (
-        <>
-          <PaymentsFilters
-            tableState={tableState}
-            setTableState={setTableState}
-          />
-          <PaymentsTable listData={data.payments} />
-        </>
+        <PaymentsTable listData={data.payments} />
       )}
     </Container>
   );
