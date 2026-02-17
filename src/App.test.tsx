@@ -11,7 +11,6 @@ import {
 import { server } from "./mocks/node";
 import App from "./App";
 import { I18N } from "./constants/i18n";
-import { format } from 'date-fns';
 
 // Helper function to robustly check for error messages with better debugging
 export const waitForErrorMessage = async (expectedMessage: string, timeout = 10000) => {
@@ -50,11 +49,6 @@ export const getTableCellsByColumnName = (columnName: string, rowIndex: number) 
   } else {
     throw new Error(`Row not found`);
   }
-};
-
-
-export const formattedDate = (date: string) => {
-  return format(new Date(date), "dd/MM/yyyy, HH:mm:ss")
 };
 
 export const getSearchInput = () => {
