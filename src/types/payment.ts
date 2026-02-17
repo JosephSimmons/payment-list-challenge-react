@@ -21,14 +21,14 @@ export interface PaymentSearchResponse {
 
 export interface PaymentQueryParams {
   search: string;
-  currency: Currency;
+  currency: Currency | '';
   page: number;
   pageSize: number;
 }
 
 export interface TableState {
   search: string;
-  currency: Currency;
+  currency: Currency | '';
   pageIndex: number;
   pageSize: number;
 }
