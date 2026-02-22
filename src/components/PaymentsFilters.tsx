@@ -3,8 +3,15 @@ import { TableState } from '../types/payment';
 import { I18N } from '../constants/i18n';
 import { ClearButton, FilterRow, SearchButton } from './components';
 import SearchInputField from './SearchInputField';
+import SelectField, { SelectOption } from './SelectField';
+import { CURRENCIES } from '../constants';
 
 type PaymentsFiltersInitialValues = Pick<TableState, 'search' | 'currency'>;
+
+const CURRENCY_OPTIONS: SelectOption[] = [
+  { value: '', label: I18N.CURRENCIES_OPTION }, // default empty option
+  ...CURRENCIES.map((currency) => ({ value: currency, label: currency })),
+];
 
 type Props = {
   tableState: TableState;
@@ -35,6 +42,12 @@ const PaymentsFilters = ({ tableState, setTableState }: Props) => {
               name="search"
               placeholder={I18N.SEARCH_PLACEHOLDER}
               ariaLabel={I18N.SEARCH_LABEL}
+            />
+
+            <SelectField
+              name="currency"
+              ariaLabel={I18N.CURRENCY_FILTER_LABEL}
+              options={CURRENCY_OPTIONS}
             />
 
             <SearchButton type="submit" disabled={isSubmitting}>
