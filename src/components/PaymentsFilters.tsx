@@ -18,13 +18,14 @@ const PaymentsFilters = ({ tableState, setTableState }: Props) => {
         search: tableState.search,
         currency: tableState.currency,
       }}
-      onSubmit={(values) =>
+      onSubmit={(values, { setSubmitting }) => {
         setTableState((prev) => ({
           ...prev,
           ...values,
           pageIndex: 0, // reset to first page on new search or filter change
-        }))
-      }
+        }));
+        setSubmitting(false);
+      }}
       enableReinitialize // this allows the form to update when tableState changes, which is important for the Clear button to work correctly
     >
       {({ isSubmitting }) => (
