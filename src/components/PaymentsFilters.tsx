@@ -35,7 +35,7 @@ const PaymentsFilters = ({ tableState, setTableState }: Props) => {
       }}
       enableReinitialize // this allows the form to update when tableState changes, which is important for the Clear button to work correctly
     >
-      {({ isSubmitting }) => (
+      {({ values, isSubmitting }) => (
         <Form>
           <FilterRow>
             <SearchInputField
@@ -50,7 +50,14 @@ const PaymentsFilters = ({ tableState, setTableState }: Props) => {
               options={CURRENCY_OPTIONS}
             />
 
-            <SearchButton type="submit" disabled={isSubmitting}>
+            <SearchButton
+              type="submit"
+              disabled={
+                isSubmitting ||
+                (values.search === tableState.search &&
+                  values.currency === tableState.currency)
+              }
+            >
               {I18N.SEARCH_BUTTON}
             </SearchButton>
 
