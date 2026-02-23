@@ -1,12 +1,13 @@
+import { JSX } from 'react';
 import { I18N } from '../constants/i18n';
 import { formattedDate } from '../helpers/formatDates';
-import { makeTableRow } from '../helpers/makeTableRow';
 import { Payment } from '../types/payment';
 import { TableColumn } from '../types/table';
 import {
   StatusBadge,
   Table,
   TableBodyWrapper,
+  TableCell,
   TableHeader,
   TableHeaderRow,
   TableHeaderWrapper,
@@ -44,9 +45,31 @@ const COLUMNS: TableColumn[] = [
   },
 ];
 
-type Props = { listData: Payment[] };
+type Props = { payments: Payment[] };
 
-const PaymentsTable = ({ listData }: Props) => {
+const PaymentsTable = ({ payments }: Props) => {
+  const makeTableRow = (
+    payment: Payment,
+    columns: TableColumn[],
+  ): JSX.Element[] =>
+    columns.map((column) => {
+      const value = payment[column.accessorKey];
+
+      const valueWithFallback =
+        value == null || value === '' ? column.fallbackValue || '' : value;
+
+      const renderedValue =
+        typeof column.cellRenderer === 'function'
+          ? column.cellRenderer(valueWithFallback)
+          : valueWithFallback;
+
+      return (
+        <TableCell key={`${payment.id}-${column.accessorKey}`}>
+          {renderedValue}
+        </TableCell>
+      );
+    });
+
   return (
     <Table>
       <TableHeaderWrapper>
@@ -60,7 +83,7 @@ const PaymentsTable = ({ listData }: Props) => {
       </TableHeaderWrapper>
 
       <TableBodyWrapper>
-        {listData.map((row) => (
+        {payments.map((row) => (
           <TableRow key={row.id}>{makeTableRow(row, COLUMNS)}</TableRow>
         ))}
       </TableBodyWrapper>

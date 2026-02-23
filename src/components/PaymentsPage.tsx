@@ -76,7 +76,7 @@ export const PaymentsPage = () => {
         <EmptyBox>{I18N.NO_PAYMENTS_FOUND}</EmptyBox>
       ) : (
         <TableWrapper>
-          <PaymentsTable listData={data.payments} />
+          <PaymentsTable payments={data.payments} />
           <PaymentsPagination
             pageNumber={data.page}
             isFirstPage={data.page === 1}
