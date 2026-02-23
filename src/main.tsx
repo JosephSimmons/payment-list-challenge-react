@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import { reportWebVitals } from './webVitals';
 
 async function enableMocking() {
   if (process.env.NODE_ENV !== 'development') {
@@ -23,4 +24,5 @@ enableMocking().then(() => {
       <App />
     </React.StrictMode>
   );
+  reportWebVitals();
 });
