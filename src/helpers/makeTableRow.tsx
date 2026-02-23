@@ -10,10 +10,13 @@ export const makeTableRow = (
   columns.map((column) => {
     const value = payment[column.accessorKey];
 
+    const valueWithFallback =
+      value == null || value === '' ? column.fallbackValue || '' : value;
+
     const renderedValue =
       typeof column.cellRenderer === 'function'
-        ? column.cellRenderer(value)
-        : value;
+        ? column.cellRenderer(valueWithFallback)
+        : valueWithFallback;
 
     return (
       <TableCell key={`${payment.id}-${column.accessorKey}`}>

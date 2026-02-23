@@ -1,5 +1,11 @@
 import { useState } from 'react';
-import { Container, Spinner, TableWrapper, Title } from './components';
+import {
+  Container,
+  EmptyBox,
+  Spinner,
+  TableWrapper,
+  Title,
+} from './components';
 import { I18N } from '../constants/i18n';
 import { useQuery } from '@tanstack/react-query';
 import { TableState } from '../types/payment';
@@ -61,9 +67,13 @@ export const PaymentsPage = () => {
       />
 
       {isPending ? (
-        <Spinner />
+        <EmptyBox>
+          <Spinner />
+        </EmptyBox>
       ) : isError ? (
         <PaymentsError error={error} />
+      ) : data.payments.length === 0 ? (
+        <EmptyBox>{I18N.NO_PAYMENTS_FOUND}</EmptyBox>
       ) : (
         <TableWrapper>
           <PaymentsTable listData={data.payments} />

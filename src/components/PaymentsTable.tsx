@@ -25,8 +25,16 @@ const COLUMNS: TableColumn[] = [
     accessorKey: 'amount',
     cellRenderer: (value) => (value as Payment['amount']).toFixed(2),
   },
-  { header: I18N.TABLE_HEADER_CUSTOMER, accessorKey: 'customerName' },
-  { header: I18N.TABLE_HEADER_CURRENCY, accessorKey: 'currency' },
+  {
+    header: I18N.TABLE_HEADER_CUSTOMER,
+    accessorKey: 'customerName',
+    fallbackValue: I18N.EMPTY_CUSTOMER,
+  },
+  {
+    header: I18N.TABLE_HEADER_CURRENCY,
+    accessorKey: 'currency',
+    fallbackValue: I18N.EMPTY_CURRENCY,
+  },
   {
     header: I18N.TABLE_HEADER_STATUS,
     accessorKey: 'status',
