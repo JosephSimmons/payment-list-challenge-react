@@ -14,23 +14,26 @@ const CURRENCY_OPTIONS: SelectOption[] = [
 ];
 
 type Props = {
-  tableState: TableState;
-  setTableState: React.Dispatch<React.SetStateAction<TableState>>;
+  search: TableState['search'];
+  currency: TableState['currency'];
+  setFilters: (filterValues: Partial<TableState>) => void;
+  clearFilters: () => void;
 };
 
-const PaymentsFilters = ({ tableState, setTableState }: Props) => {
+const PaymentsFilters = ({
+  search,
+  currency,
+  setFilters,
+  clearFilters,
+}: Props) => {
   return (
     <Formik<PaymentsFiltersInitialValues>
       initialValues={{
-        search: tableState.search,
-        currency: tableState.currency,
+        search,
+        currency,
       }}
       onSubmit={(values, { setSubmitting }) => {
-        setTableState((prev) => ({
-          ...prev,
-          ...values,
-          pageIndex: 0, // reset to first page on new search or filter change
-        }));
+        setFilters(values);
         setSubmitting(false);
       }}
       enableReinitialize // this allows the form to update when tableState changes, which is important for the Clear button to work correctly
@@ -54,24 +57,14 @@ const PaymentsFilters = ({ tableState, setTableState }: Props) => {
               type="submit"
               disabled={
                 isSubmitting ||
-                (values.search === tableState.search &&
-                  values.currency === tableState.currency)
+                (values.search === search && values.currency === currency)
               }
             >
               {I18N.SEARCH_BUTTON}
             </SearchButton>
 
-            {tableState.search !== '' || tableState.currency !== '' ? (
-              <ClearButton
-                onClick={() =>
-                  setTableState((prev) => ({
-                    ...prev,
-                    search: '',
-                    currency: '',
-                    pageIndex: 0, // reset to first page when clearing filters
-                  }))
-                }
-              >
+            {search !== '' || currency !== '' ? (
+              <ClearButton onClick={clearFilters}>
                 {I18N.CLEAR_FILTERS}
               </ClearButton>
             ) : null}

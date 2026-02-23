@@ -11,7 +11,6 @@ import {
   TableHeaderRow,
   TableHeaderWrapper,
   TableRow,
-  TableWrapper,
 } from './components';
 
 const COLUMNS: TableColumn[] = [
@@ -41,25 +40,23 @@ type Props = { listData: Payment[] };
 
 const PaymentsTable = ({ listData }: Props) => {
   return (
-    <TableWrapper>
-      <Table>
-        <TableHeaderWrapper>
-          <TableHeaderRow>
-            {COLUMNS.map((column) => (
-              <TableHeader key={`th-${column.accessorKey}`} scope="col">
-                {column.header}
-              </TableHeader>
-            ))}
-          </TableHeaderRow>
-        </TableHeaderWrapper>
-
-        <TableBodyWrapper>
-          {listData.map((row) => (
-            <TableRow key={row.id}>{makeTableRow(row, COLUMNS)}</TableRow>
+    <Table>
+      <TableHeaderWrapper>
+        <TableHeaderRow>
+          {COLUMNS.map((column) => (
+            <TableHeader key={`th-${column.accessorKey}`} scope="col">
+              {column.header}
+            </TableHeader>
           ))}
-        </TableBodyWrapper>
-      </Table>
-    </TableWrapper>
+        </TableHeaderRow>
+      </TableHeaderWrapper>
+
+      <TableBodyWrapper>
+        {listData.map((row) => (
+          <TableRow key={row.id}>{makeTableRow(row, COLUMNS)}</TableRow>
+        ))}
+      </TableBodyWrapper>
+    </Table>
   );
 };
 

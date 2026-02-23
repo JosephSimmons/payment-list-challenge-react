@@ -1,4 +1,4 @@
-import { ErrorBox } from './components';
+import { EmptyBox, ErrorBox } from './components';
 import { I18N } from '../constants/i18n';
 import { isAxiosError } from 'axios';
 
@@ -15,6 +15,7 @@ const PaymentsError = ({ error }: Props) => {
 
     if (status === 404) {
       errorMessage = I18N.PAYMENT_NOT_FOUND;
+      return <EmptyBox>{errorMessage}</EmptyBox>;
     } else if (status === 500) {
       errorMessage = I18N.INTERNAL_SERVER_ERROR;
     }
