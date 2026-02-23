@@ -45,31 +45,31 @@ const COLUMNS: TableColumn[] = [
   },
 ];
 
+const makeTableRow = (
+  payment: Payment,
+  columns: TableColumn[],
+): JSX.Element[] =>
+  columns.map((column) => {
+    const value = payment[column.accessorKey];
+
+    const valueWithFallback =
+      value == null || value === '' ? column.fallbackValue || '' : value;
+
+    const renderedValue =
+      typeof column.cellRenderer === 'function'
+        ? column.cellRenderer(valueWithFallback)
+        : valueWithFallback;
+
+    return (
+      <TableCell key={`${payment.id}-${column.accessorKey}`}>
+        {renderedValue}
+      </TableCell>
+    );
+  });
+
 type Props = { payments: Payment[] };
 
 const PaymentsTable = ({ payments }: Props) => {
-  const makeTableRow = (
-    payment: Payment,
-    columns: TableColumn[],
-  ): JSX.Element[] =>
-    columns.map((column) => {
-      const value = payment[column.accessorKey];
-
-      const valueWithFallback =
-        value == null || value === '' ? column.fallbackValue || '' : value;
-
-      const renderedValue =
-        typeof column.cellRenderer === 'function'
-          ? column.cellRenderer(valueWithFallback)
-          : valueWithFallback;
-
-      return (
-        <TableCell key={`${payment.id}-${column.accessorKey}`}>
-          {renderedValue}
-        </TableCell>
-      );
-    });
-
   return (
     <Table>
       <TableHeaderWrapper>
