@@ -16,8 +16,34 @@ export const fetchPaymentsData = async (tableState: TableState) => {
     pageSize,
   };
 
-  const response = await axios.get<PaymentSearchResponse>(API_URL, { params });
-  // PaymentsError component will handle error display from Axios response so its use here is important
+  const start = performance.now();
 
-  return response.data;
+  try {
+    // PaymentsError component will handle error display from Axios response so its use here is important
+    const response = await axios.get<PaymentSearchResponse>(API_URL, {
+      params,
+    });
+
+    const duration = performance.now() - start;
+
+    console.log('[API] fetchPaymentsData', {
+      url: API_URL,
+      params,
+      status: response.status,
+      duration,
+    });
+
+    return response.data;
+  } catch (error) {
+    const duration = performance.now() - start;
+
+    console.error('[API] fetchPaymentsData error', {
+      url: API_URL,
+      params,
+      error,
+      duration,
+    });
+
+    throw error;
+  }
 };
