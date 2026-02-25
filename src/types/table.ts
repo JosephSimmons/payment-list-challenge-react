@@ -1,8 +1,6 @@
-import { Payment } from './payment';
-
-export type TableColumn = {
+export type TableColumn<T> = {
   header: string;
-  accessorKey: keyof Payment;
-  cellRenderer?: (value: Payment[keyof Payment]) => React.ReactNode;
+  accessorKey: keyof T;
+  cellRenderer?: (value: T[keyof T]) => React.ReactNode;
   fallbackValue?: string;
 };
